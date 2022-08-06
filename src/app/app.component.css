@@ -1,0 +1,3 @@
+.btn-check:active:hover + .btn, .btn-check:checked:hover + .btn {
+  background-color: #448fff;
+}
