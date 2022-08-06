@@ -6,6 +6,10 @@ type TodoData = {
   date: string
 };
 
+function textToDate(text: string) {
+  return new Date(text + ' 00:00:00');
+}
+
 class Todo {
   description = '';
   completed = false;
@@ -13,7 +17,7 @@ class Todo {
   isEditing = true;
   isNew = true;
   formatDate() {
-    return new Date(this.date + ' 00:00:00').toLocaleDateString('es-MX', { dateStyle: 'full' });
+    return textToDate(this.date).toLocaleDateString('es-MX', { dateStyle: 'full' });
   }
 }
 
@@ -23,15 +27,7 @@ class Todo {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  todos = [
-    Object.assign(new Todo(), {
-      description: 'Check in',
-      completed: true,
-      date: '2022-08-01',
-      isEditing: false,
-      isNew: false
-    })
-  ] as Todo[];
+  todos = [] as Todo[];
   showingCompleted = true;
   showingPending = true;
   get visibleTodos() {
@@ -52,5 +48,16 @@ export class AppComponent {
   }
   copyTodo(old: Todo) {
     this.todos.push(Object.assign(new Todo(), old));
+  }
+  export() {
+    const json = JSON.stringify(this.todos.map((todo) => {
+      return { completed: todo.completed, description: todo.description, date: textToDate(todo.date).toJSON() }
+    }));
+    const blob = new Blob([json], {type: "octet/stream"});
+    const url = URL.createObjectURL(blob);
+    const element = document.getElementById('export') as HTMLAnchorElement;
+    element.href = url;
+    element.click();
+    URL.revokeObjectURL(url);
   }
 }

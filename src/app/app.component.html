@@ -12,6 +12,10 @@
         <label class="btn btn-outline-primary" for="chk-pending">Mostrar pendientes</label>
       </div>
       <button
+        (click)="export()" type="button"
+        class="btn btn-outline-primary me-1"
+      >Exportar a JSON</button>
+      <button
         (click)="addTodo()" type="button"
         class="btn btn-lg btn-outline-success"
       >Agregar tarea</button>
@@ -52,3 +56,4 @@
     </div>
   </div>
 </div>
+<a id="export" style="display: none" download="tareas.json"></a>
