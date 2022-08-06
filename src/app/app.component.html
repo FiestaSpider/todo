@@ -8,11 +8,29 @@
   </div>
   <div id="todo-container" class="row">
     <div *ngFor="let todo of todos" class="border rounded col mx-1 px-2 pt-1 pb-2 mb-3">
-      <app-todo
-        [description]="todo.description"
-        [completed]="todo.completed"
-        [date]="todo.date"
-        [remove]="todo.remove"></app-todo>
+      <div *ngIf="todo.editing; else elseTodo">
+        <app-todo
+          [description]="todo.description"
+          [completed]="todo.completed"
+          [date]="todo.date"
+          (todoCancelEvent)="cancelTodo(todo)"
+          (todoUpdateEvent)="updateTodo(todo, $event)"
+        ></app-todo>
+      </div>
+      <ng-template #elseTodo>
+        <div class="position-relative">
+          <div class="position-absolute top-0 end-0 mt-1">
+            <button type="button" (click)="todo.editing = true" class="btn btn-sm btn-outline-success me-1">Editar</button>
+            <button type="button" (click)="todos.splice(todos.indexOf(todo), 1)" class="btn btn-sm btn-outline-danger">Eliminar</button>
+          </div>
+          <p><span class="fw-bold">Descripción:</span> {{ todo.description }}</p>
+          <p><span class="fw-bold">Fecha de inicio:</span> {{ todo.formatDate() }}</p>
+          <p>
+            <span class="fw-bold">Estado:</span>
+            {{ (todo.completed ? 'Completada' : 'Pendiente') }}
+          </p>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

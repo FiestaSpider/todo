@@ -1,16 +1,43 @@
-<label class="mb-2">
-  <span class="form-label">Descripción</span>
-  <button
-    class="btn btn-sm btn-danger float-end"
-    type="button" aria-label="Close" (click)="remove()"
-  >×</button>
-  <textarea class="form-control" [(ngModel)]="description"></textarea>
-</label>
-<label class="form-check mb-2">
-  <input class="form-check-input" type="checkbox" [(ngModel)]="completed">
-  <span class="form-check-label">Completada</span>
-</label>
-<label>
-  <span class="form-label">Fecha de inicio</span>
-  <input type="date" class="form-control" [(ngModel)]="date">
-</label>
+<form (ngSubmit)="updateTodo()" ngNativeValidate>
+  <div class="position-relative">
+    <div class="position-absolute top-0 end-0 mt-1">
+      <button type="submit" class="btn btn-sm btn-outline-success me-1">Guardar</button>
+      <button type="button" (click)="cancelTodo()" class="btn btn-sm btn-outline-dark">Cancelar</button>
+    </div>
+    <label class="mt-3 mb-2">
+      <span class="form-label">Descripción</span>
+      <textarea
+        class="form-control"
+        [(ngModel)]="description" [ngModelOptions]="{standalone: true}"
+        minlength="5" required=""
+        #descriptionField="ngModel"
+      ></textarea>
+      <small class="text-danger" *ngIf="descriptionField.invalid && (descriptionField.dirty || descriptionField.touched)">
+        <div *ngIf="descriptionField.errors?.['required']">
+          La descripción es obligatoria.
+        </div>
+        <div *ngIf="descriptionField.errors?.['minlength']">
+          La descripción debe tener una longitud de por lo menos 5 caracteres.
+        </div>
+      </small>
+    </label>
+    <label class="form-check">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="completed" [ngModelOptions]="{standalone: true}">
+      <span class="form-check-label">Completada</span>
+    </label>
+    <label>
+      <span class="form-label">Fecha de inicio</span>
+      <input
+        type="date" class="form-control"
+        [(ngModel)]="date" [ngModelOptions]="{standalone: true}"
+        required=""
+        #dateField="ngModel"
+      >
+      <small class="text-danger" *ngIf="dateField.invalid && (dateField.dirty || dateField.touched)">
+        <div *ngIf="dateField.errors?.['required']">
+          La fecha de inicio es obligatoria.
+        </div>
+      </small>
+    </label>
+  </div>
+</form>
