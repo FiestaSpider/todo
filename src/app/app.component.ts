@@ -28,7 +28,7 @@ export class AppComponent {
   showingPending = true;
   get visibleTodos() {
     return this.todos.filter(todo => {
-      return (todo.completed && this.showingCompleted) || (!todo.completed && this.showingPending);
+      return todo.editing || (todo.completed && this.showingCompleted) || (!todo.completed && this.showingPending);
     });
   }
   addTodo() {
