@@ -24,6 +24,13 @@ export class AppComponent {
       editing: false
     })
   ] as Todo[];
+  showingCompleted = true;
+  showingPending = true;
+  get visibleTodos() {
+    return this.todos.filter(todo => {
+      return (todo.completed && this.showingCompleted) || (!todo.completed && this.showingPending);
+    });
+  }
   addTodo() {
     this.todos.push(new Todo());
   }

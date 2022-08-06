@@ -1,13 +1,24 @@
 <div class="m-1">
   <div class="text-center mb-3">
-    <h1>Tareas</h1>
-    <button
-      (click)="addTodo()" type="button"
-      class="btn btn-lg btn-outline-success"
-    >Agregar tarea</button>
+    <div>
+      <h1>Tareas</h1>
+    </div>
+    <div>
+      <div class="btn-group me-1" role="group">
+        <input [(ngModel)]="showingCompleted" type="checkbox" class="btn-check" id="chk-completed" autocomplete="off">
+        <label class="btn btn-outline-primary" for="chk-completed">Mostrar completadas</label>
+      
+        <input [(ngModel)]="showingPending" type="checkbox" class="btn-check" id="chk-pending" autocomplete="off">
+        <label class="btn btn-outline-primary" for="chk-pending">Mostrar pendientes</label>
+      </div>
+      <button
+        (click)="addTodo()" type="button"
+        class="btn btn-lg btn-outline-success"
+      >Agregar tarea</button>
+    </div>
   </div>
   <div id="todo-container" class="row">
-    <div *ngFor="let todo of todos" class="border rounded col mx-1 px-2 pt-1 pb-2 mb-3">
+    <div *ngFor="let todo of visibleTodos" class="border rounded col mx-1 px-2 pt-1 pb-2 mb-3">
       <div *ngIf="todo.editing; else elseTodo">
         <app-todo
           [description]="todo.description"
