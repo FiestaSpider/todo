@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 
+type TodoData = {
+  description: string,
+  completed: boolean,
+  date: string
+};
+
 class Todo {
   description = '';
   completed = false;
@@ -39,13 +45,12 @@ export class AppComponent {
   cancelTodo(old: Todo) {
     old.isEditing = false;
   }
-  updateTodo(old: Todo, next: {
-    description: string,
-    completed: boolean,
-    date: string
-  }) {
+  updateTodo(old: Todo, next: TodoData) {
     Object.assign(old, next);
     old.isNew = false;
     old.isEditing = false;
+  }
+  copyTodo(old: Todo) {
+    this.todos.push(Object.assign(new Todo(), old));
   }
 }

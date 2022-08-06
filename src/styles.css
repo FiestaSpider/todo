@@ -1,6 +1,7 @@
 #todo-container {
   --bs-gutter-x: 0;
 }
-.new .btn.cancel {
+.new .btn.cancel, 
+.new .btn.copy {
   display: none;
 }
