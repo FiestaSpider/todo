@@ -4,7 +4,8 @@ class Todo {
   description = '';
   completed = false;
   date = '';
-  editing = true;
+  isEditing = true;
+  isNew = true;
   formatDate() {
     return new Date(this.date + ' 00:00:00').toLocaleDateString('es-MX', { dateStyle: 'full' });
   }
@@ -21,21 +22,22 @@ export class AppComponent {
       description: 'Check in',
       completed: true,
       date: '2022-08-01',
-      editing: false
+      isEditing: false,
+      isNew: false
     })
   ] as Todo[];
   showingCompleted = true;
   showingPending = true;
   get visibleTodos() {
     return this.todos.filter(todo => {
-      return todo.editing || (todo.completed && this.showingCompleted) || (!todo.completed && this.showingPending);
+      return todo.isEditing || (todo.completed && this.showingCompleted) || (!todo.completed && this.showingPending);
     });
   }
   addTodo() {
     this.todos.push(new Todo());
   }
   cancelTodo(old: Todo) {
-    old.editing = false;
+    old.isEditing = false;
   }
   updateTodo(old: Todo, next: {
     description: string,
@@ -43,6 +45,7 @@ export class AppComponent {
     date: string
   }) {
     Object.assign(old, next);
-    old.editing = false;
+    old.isNew = false;
+    old.isEditing = false;
   }
 }

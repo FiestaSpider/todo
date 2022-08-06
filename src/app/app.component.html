@@ -20,7 +20,7 @@
   <div id="todo-container" class="row">
     <div *ngFor="let todo of visibleTodos" class="col-xs-12 col-sm-6 col-md-4 col-xl-3">
       <div class="border rounded mx-1 px-2 pt-1 pb-2 mb-3">
-        <div *ngIf="todo.editing; else elseTodo">
+        <div [ngClass]="todo.isNew ? 'new' : ''" *ngIf="todo.isEditing; else elseTodo">
           <app-todo
             [description]="todo.description"
             [completed]="todo.completed"
@@ -32,7 +32,7 @@
         <ng-template #elseTodo>
           <div class="position-relative">
             <div class="position-absolute top-0 end-0 mt-1">
-              <button type="button" (click)="todo.editing = true" class="btn btn-sm btn-outline-success me-1">Editar</button>
+              <button type="button" (click)="todo.isEditing = true" class="btn btn-sm btn-outline-success me-1">Editar</button>
               <button type="button" (click)="todos.splice(todos.indexOf(todo), 1)" class="btn btn-sm btn-outline-danger">Eliminar</button>
             </div>
             <p>
